@@ -37,9 +37,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 		todoRepository.save(todo);
 		userRepository.save(user);
-
-
-
-
 	}
 }
