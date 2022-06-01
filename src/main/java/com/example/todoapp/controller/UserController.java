@@ -6,6 +6,8 @@ import com.example.todoapp.entity.Todo;
 import com.example.todoapp.entity.User;
 import com.example.todoapp.repository.TodoRepository;
 import com.example.todoapp.repository.UserRepository;
+import com.example.todoapp.request.AddTodoRequest;
+import com.example.todoapp.request.AddUserRequest;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +32,20 @@ public class UserController {
 		return userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
 	}
 	 @PostMapping
-	public User addUser(@RequestBody User user){
+	public User addUser(@RequestBody AddUserRequest addUserRequest){
+		User user = new User();
+		user.setUsername(addUserRequest.getUsername());
+		user.setPassword(addUserRequest.getPassword());
 		return userRepository.save(user);
 	 }
 	 @PostMapping("/{userId}/todos")
-	public void addTodo(@PathVariable Long userId, @RequestBody Todo todo){
+	public void addTodo(@PathVariable Long userId, @RequestBody AddTodoRequest addTodoRequest){
 		User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
+		Todo todo = new Todo();
+		todo.setContent(addTodoRequest.getContent());
 		user.getTodoList().add(todo);
+		todoRepository.save(todo);
+		userRepository.save(user);
 	 }
 	 @PostMapping("/todos/{todoId}")
 	public void toggleTodoCompleted(@PathVariable Long todoId){

@@ -25,12 +25,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 	@Override
 	public void run(String... args) throws Exception {
 		User user= new User();
-		user.setId(1L);
+
 		user.setUsername("ayse");
 		user.setPassword("test");
 
 		Todo todo = new Todo();
-		todo.setId(1L);
+
 		todo.setContent("icerik");
 
 		user.getTodoList().add(todo);
