@@ -53,9 +53,11 @@ public class UserController {
 		todo.setCompleted(!todo.getCompleted());
 		todoRepository.save(todo);
 	 }
-	 @DeleteMapping("todos/{todoId}")
-	public void deleteTodo(@PathVariable Long todoId){
+	 @DeleteMapping("{userId}/todos/{todoId}")
+	public void deleteTodo(@PathVariable Long userId, @PathVariable Long todoId){
+		User user = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException());
 		Todo todo = todoRepository.findById(todoId).orElseThrow(() -> new NoSuchElementException());
+		user.getTodoList().remove(todo);
 		todoRepository.delete(todo);
 	 }
 	 @DeleteMapping("/{userId}")
